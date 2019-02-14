@@ -31,6 +31,8 @@ class Home extends Component {
     }
 }
 
+
+
     login() {
         let port = (window.location.port ? ':' + window.location.port : '');
         if (port === ':3000') {
@@ -48,18 +50,34 @@ class Home extends Component {
             });
     }
 
+
+    signup() {
+        fetch('/api/signup', {mode: 'no-cors'}).then(res => {
+            console.log('response is :',res)
+            //res.json()
+        });
+        //.then(response => {
+        //    console.log('response is :',response)
+        //
+        //    //sign up
+        //});
+    }
+
     render() {
         const message = this.state.user ?
             <h2>Welcome, {this.state.user.name}!</h2> :
             <p>Please log in to manage your JUG Tour.</p>;
-
         const button = this.state.isAuthenticated ?
             <div>
                 <Button color="link"><Link to="/groups">Manage JUG Tour</Link></Button>
                 <br/>
                 <Button color="link" onClick={this.logout}>Logout</Button>
             </div> :
-            <Button color="primary" onClick={this.login}>Login</Button>;
+            <div>
+                <Button color="link"><Link to="/signup">Sign up</Link></Button>
+                <Button color="primary" onClick={this.login}>Login</Button>
+            </div>
+                ;
 
         return (
             <div>

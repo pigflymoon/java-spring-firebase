@@ -19,8 +19,9 @@ import java.security.Principal;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
-
+//这被称为构造型（stereotype）注解。它为阅读代码的人提供暗示（这是一个支持REST的控制器）
 @RestController
+//注解提供路由信息，它告诉Spring任何来自"/api"路径的HTTP请求都应该被映射到GroupController
 @RequestMapping("/api")
 class GroupController {
 
@@ -32,15 +33,20 @@ class GroupController {
         this.groupRepository = groupRepository;
         this.usersRepository = usersRepository;
     }
-
+//@GetMapping是一个组合注解，是@RequestMapping(method = RequestMethod.GET)的缩写。
+// 该注解将HTTP Get 映射到 特定的处理方法上
     @GetMapping("/groups")
     Collection<Group> groups(Principal principal) {
+
+        System.out.println("principal is :" + principal.getName());
         return groupRepository.findAllByUsersId(principal.getName());
     }
 
     @GetMapping("/group/{id}")
     ResponseEntity<?> getGroup(@PathVariable Long id) {
         Optional<Group> group = groupRepository.findById(id);
+        System.out.println("id  is :" + id);
+        System.out.println("group  is :"+group);
         return group.map(response -> ResponseEntity.ok().body(response))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }

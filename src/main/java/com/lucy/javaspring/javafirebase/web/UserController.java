@@ -1,5 +1,7 @@
 package com.lucy.javaspring.javafirebase.web;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -14,9 +16,11 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
+
 @RestController
 public class UserController {
     private ClientRegistration registration;
+    private final Logger log = LoggerFactory.getLogger(UserController.class);
 
     public UserController(ClientRegistrationRepository registrations) {
         this.registration = registrations.findByRegistrationId("google");
@@ -43,5 +47,15 @@ public class UserController {
         logoutDetails.put("idToken", idToken.getTokenValue());
         request.getSession(false).invalidate();
         return ResponseEntity.ok().body(logoutDetails);
+    }
+
+
+
+    @PostMapping("/api/signup")
+    public ResponseEntity<?> signup(HttpServletRequest request) {
+
+          System.out.println("##########called!!!");
+//        return ResponseEntity.ok().body(userRecord);
+        return new ResponseEntity<>("", HttpStatus.OK);
     }
 }
